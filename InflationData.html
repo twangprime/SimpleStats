@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+
+<div id="demo2">
+  <button type = "button" onclick="updateChart()">Click to Load Data</button>
+</div>
+
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const labels = [];
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [],
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {}
+  };
+</script>
+
+<script>
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+</script>
+
+
+<script>
+//Fetch JSON data 
+//https://www.youtube.com/watch?v=mw5i_QGDomw&t=133s
+
+function updateChart() {
+    async function fetchData(){
+    const url = './inflationdata.json';
+    const response = await fetch(url);
+    const datapoints = await response.json();
+    //console.log(datapoints);
+    return datapoints;
+  }
+
+  fetchData().then(datapoints => {
+    const labels = datapoints.map(
+      function(index){
+        return index.year
+      }
+    )
+
+    const inflation = datapoints.map(
+      function(index){
+        return index.value
+      }
+    )
+
+    console.log(labels)
+    console.log(inflation)
+    myChart.config.data.labels = labels;
+    myChart.config.data.datasets[0].data = inflation;
+    myChart.update();
+
+  })
+}
+</script>
+
+
+</body>
+
+
+</html>
