@@ -1,5 +1,6 @@
 Node_modules: folder for downloaded javascript packages (using npm)
 
 
+Apparently javascript can't deal with csv files by default haha. 
 
 
